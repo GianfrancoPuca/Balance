@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> New User </title>
+    <link th:href="@{css/style.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <form action="/" method="get">
+            <button type="submit"> Return to Balance </button>
+        </form>
+    </div>
+</div>
+
+<form th:object="${user}" method="post">
+    <input type="text" th:field="*{name}" placeholder="Please enter your name" required>
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <br>
+    <input type="text" th:field="*{surname}"placeholder="Please enter your surname" required>
+    <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
+    <br>
+    <input type="submit" value="Register">
+</form>
+</body>
+<footer class="py-3 mt-auto container">
+<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    <li class="nav-item">
+        <a th:href="@{/operation}" class="nav-link">New Financial Transaction</a>
+    </li>
+</ul>
+</footer>
+</html>

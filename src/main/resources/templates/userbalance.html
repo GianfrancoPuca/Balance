@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> User Balance </title>
+    <link th:href="@{css/style.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <form action="/" method="get">
+            <button type="submit"> Return to Balance </button>
+        </form>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="list-box">
+            <table class="table table-striped table-responsive">
+                <thead>
+                <tr>
+                    <th th:text="'Transaction Date'"></th>
+                    <th th:text="'Transaction Description'"></th>
+                    <th class="text-end" th:text="'Revenue'"></th>
+                    <th class="text-end" th:text="'Expenses'"></th>
+                    <th th:text="'Transaction User'"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="operation : ${operations}">
+                    <td class="align-middle" th:text="${#temporals.format(operation.date, 'dd-MM-yyyy')}"></td>
+                    <td class="align-middle" th:text="${operation.description}"></td>
+                    <td class="text-end align-middle" th:text="${operation.amount > 0 ? #numbers.formatDecimal(operation.amount, 0, 'POINT', 2, 'COMMA') : '---'}"></td>
+                    <td class="text-end align-middle" th:text="${operation.amount < 0 ? #numbers.formatDecimal(operation.amount, 0, 'POINT', 2, 'COMMA') : '---'}"></td>
+                    <td th:text="${operation.user.name} + ' ' + ${operation.user.surname}"></td>
+                    <td class="text-end">
+                        <a th:href="@{/delete(id=${operation.id})}" th:text="Delete" class="btn btn-danger btn-sm small-button"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-11 text-end">
+        <h5 th:text="'Current Balance Sheet'"></h5>
+    </div>
+    <div class="col-1 text-end">
+        <h5 th:text="${balance > 0 ? '+' + #numbers.formatDecimal(balance, 0, 'POINT', 2, 'COMMA') : #numbers.formatDecimal(balance, 0, 'POINT', 2, 'COMMA')}" th:class="${balance > 0 ? 'text-success' : 'text-danger'}"></h5>
+    </div>
+</div>
+</div>
+</body>
+<footer class="py-3 mt-auto container">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item">
+            <a th:href="@{/operation}" class="nav-link">New Financial Transaction</a>
+        </li>
+    </ul>
+</footer>
+</html>

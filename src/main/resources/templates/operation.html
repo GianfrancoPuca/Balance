@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Operation </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{css/style.css}" rel="stylesheet">
+</head>
+<body>
+    <img th:src="@{imgs/headerImage.png}" class="card-img" alt="header">
+    <div class="card-img-overlay pt-4">
+        <h2 class="card-title mt-4" th:text="'Household Balance Sheet'"></h2>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <h4 th:text="'New Financial Transaction'"></h4>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <form action="/" method="get">
+                <button type="submit"> Return to Balance </button>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <form method="post" th:object="${operation}">
+            <div class="row">
+                <div class="col-6">
+                    <label for="date" th:text="'Transaction Date'"></label>
+                    <input type="date" id="date" th:field="*{date}" class="form-control" required="required">
+                </div>
+                <div class="col-6">
+                    <label for="amount" th:text="'Transaction Amount'"></label>
+                    <input type="number" step="any" id="amount" th:field="*{amount}" class="form-control" required="required">
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label for="description" th:text="'Transaction Description'"></label>
+                    <input type="text" id="description" th:field="*{description}" class="form-control" required="required">
+                    <p th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"></p>
+                </div>
+            </div>
+            <br>
+            <div class="col-12">
+                <label for="id" th:text="'User'"></label>
+                <select id="id" th:field="*{user.id}" class="form-select" required="required">
+                    <option value="" th:text="'Select User'"></option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.name + ' ' + user.surname}">
+                    </option>
+                    <option value="new" th:text="'Register a new user'"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('user.id')}" th:errors="*{user.id}" class="text-danger"></p>
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <input type="submit" class="btn btn-primary large-button me-2" th:value="'Record Transaction'">
+                    <a th:href="@{/}" class="btn btn-secondary large-button" th:text="'Quit'"></a>
+                </div>
+            </div>
+        </form>
+</div>
+    </div>
+</div>
+<script>
+    document.getElementById('id').addEventListener('change', function() {
+        var selectedValue = this.value;
+        if (selectedValue === 'new') {
+            window.location.href = '/newuser';
+        }
+    });
+</script>
+</body>
+<footer class="py-3 mt-auto container">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item">
+            <a th:href="@{/operation}" class="nav-link">New Financial Transaction</a>
+        </li>
+    </ul>
+</footer>
+</html>
